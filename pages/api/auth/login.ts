@@ -19,7 +19,7 @@ export default async function handler(
     if (data) {
       // Créer un JWT
       const token = jwt.sign(
-        { email, nom: data.nom, id: data.id, role },
+        { email, nom: data.nom, id: data.idcl, role },
         SECRET_KEY,
         { expiresIn: "1h" }
       );

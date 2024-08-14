@@ -394,39 +394,41 @@ export async function deleteUser(id: number) {
   redirect("/dashboard/users");
 }
 
-// export async function handlelogin(data: { email: string; mdp: string }) {
-//   const { email, mdp } = data;
+export async function handlelogin(data: { email: string; mdp: string }) {
+  const { email, mdp } = data;
 
-//   const { rows, rowCount } =
-//     await sql<Client>`SELECT * from client WHERE email=${email} AND password=${mdp};`;
-//   if (rowCount != null && rowCount >= 1) {
-//     const { id, nom, prenom } = rows[0];
+  const { rows, rowCount } =
+    await sql<Client>`SELECT * from client WHERE email=${email} AND password=${mdp};`;
+  if (rowCount != null && rowCount >= 1) {
+    const { idcl, nom, prenom,email } = rows[0];
 
-//     return {
-//       data: {
-//         id,
-//         nom: `${nom} ${prenom}`,
-//       },
-//       role: "Client",
-//     };
-//   } else {
-//     const { rows, rowCount } =
-//       await sql<User>`SELECT * from User WHERE email=${email} AND password=${mdp};`;
+    return {
+      data: {
+        idcl,
+        nom: `${nom} ${prenom}`,
+        email
+      },
+      role: "Client",
+    };
+  } else {
+    const { rows, rowCount } =
+      await sql<Users>`SELECT * from User WHERE email=${email} AND password=${mdp};`;
 
-//     if (rowCount != null && rowCount >= 1) {
-//       const { id, nom, niveauautorisation } = rows[0];
-//       return {
-//         data: {
-//           id,
-//           nom,
-//         },
-//         role: niveauautorisation,
-//       };
-//     } else {
-//       return {
-//         data: {},
-//         role: "",
-//       };
-//     }
-//   }
-// }
+    if (rowCount != null && rowCount >= 1) {
+      const { nom,iduser,email,role  } = rows[0];
+      return {
+        data: {
+          iduser,
+          nom,
+          email
+        },
+        role,
+      };
+    } else {
+      return {
+        data: {},
+        role: "",
+      };
+    }
+  }
+}

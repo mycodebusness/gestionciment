@@ -2,7 +2,6 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
-import { redirect } from "next/navigation";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
@@ -16,7 +15,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         path: "/",
       })
     );
-    redirect("/");
   } else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
