@@ -3,42 +3,39 @@ import { Button } from "@/components/ui/button";
 import { SheetContent, Sheet, SheetTrigger } from "@/components/ui/sheet";
 import {
   Home,
-  LineChart,
   LucideBadgeDollarSign,
-  Package,
   Package2,
   PanelLeft,
   ShoppingBasket,
-  ShoppingCart,
   UserCog,
   Users,
   Users2,
 } from "lucide-react";
 import Link from "next/link";
-// import { Users, verifyToken } from "@/lib/verification";
-// import { cookies } from "next/headers";
-// import { redirect } from "next/navigation";
+import { Users as User, verifyToken } from "@/lib/verification";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 export default function Dashboard({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //   const cookieStore = cookies();
-  //   const tokenCookie = cookieStore.get("token")?.value;
+  const cookieStore = cookies();
+  const tokenCookie = cookieStore.get("token")?.value;
 
-  //   let verificationcookie: Users | null = null;
-  //   if (tokenCookie) {
-  //     verificationcookie = verifyToken(tokenCookie);
-  //     console.log({ verificationcookie });
+  let verificationcookie: User | null = null;
+  if (tokenCookie) {
+    verificationcookie = verifyToken(tokenCookie);
+    console.log({ verificationcookie });
 
-  //     if (verificationcookie?.role) {
-  //       if (verificationcookie?.role == "Client") {
-  //         redirect("/reservation");
-  //       }
-  //     } else {
-  //       redirect("/login");
-  //     }
-  //   }
+    if (verificationcookie?.role) {
+      if (verificationcookie?.role == "Client") {
+        redirect("/");
+      }
+    } else {
+      redirect("/login");
+    }
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">

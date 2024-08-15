@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { toast } from "./ui/use-toast";
 
 function LinkUrl() {
   const pathname = usePathname();
@@ -163,10 +164,29 @@ function LinkUrl() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Votre compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Reglage</DropdownMenuItem>
-            <DropdownMenuItem>à propos</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Se déconnecter</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                const response = await fetch("/api/auth/logout");
+
+                if (response.ok) {
+                  // Redirige l'utilisateur après une connexion réussie
+                  toast({
+                    title: "Authentification",
+                    description: `connexion avec succès`,
+                    className: "bg-blue-700 text-white",
+                  });
+                  window.location.href = "/";
+                } else {
+                  toast({
+                    title: "Erreur connexion",
+                    description: `email ou mdp incorrectes`,
+                    className: "bg-red-700 text-white",
+                  });
+                }
+              }}
+            >
+              Se déconnecter
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </nav>

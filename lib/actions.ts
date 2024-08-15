@@ -53,16 +53,6 @@ export async function upDateProduit(id: number, data: Omit<Produit, "idprod">) {
     description,
   } = data;
   const date = new Date(date_creation || "").toDateString();
-  console.log({
-    itemname,
-    prix,
-    quantity,
-    stockalerte,
-    type,
-    date_creation,
-    description,
-    date,
-  });
   try {
     await sql`UPDATE produit
 SET itemname=${itemname},prix=${prix},quantity=${quantity},stockalerte=${stockalerte},type=${type},date_creation=${date},description=${description}
@@ -109,7 +99,6 @@ export async function addCommande(data: Omit<Commande, "idcomm">) {
     date_livraison,
     origine,
   } = data;
-  console.log({ data });
 
   try {
     await sql`
@@ -400,27 +389,27 @@ export async function handlelogin(data: { email: string; mdp: string }) {
   const { rows, rowCount } =
     await sql<Client>`SELECT * from client WHERE email=${email} AND password=${mdp};`;
   if (rowCount != null && rowCount >= 1) {
-    const { idcl, nom, prenom,email } = rows[0];
+    const { idcl, nom, prenom, email } = rows[0];
 
     return {
       data: {
         idcl,
         nom: `${nom} ${prenom}`,
-        email
+        email,
       },
       role: "Client",
     };
   } else {
     const { rows, rowCount } =
-      await sql<Users>`SELECT * from User WHERE email=${email} AND password=${mdp};`;
+      await sql<Users>`SELECT * from Users WHERE email=${email} AND password=${mdp};`;
 
     if (rowCount != null && rowCount >= 1) {
-      const { nom,iduser,email,role  } = rows[0];
+      const { nom, iduser, email, role } = rows[0];
       return {
         data: {
           iduser,
           nom,
-          email
+          email,
         },
         role,
       };

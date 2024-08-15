@@ -13,6 +13,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { email, password } = req.body;
+
     const { data, role } = await handlelogin({ email, mdp: password });
     // Remplacez ceci par votre logique de vérification
 
